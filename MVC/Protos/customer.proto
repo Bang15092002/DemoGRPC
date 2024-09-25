@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "Myprotos";
+
+package Customers;
+
+service GRrpcCustomer {
+    rpc GetAll(Empty) returns (CustomerList);
+    rpc GetCustomer (IDrequest) returns (Customer);
+}
+
+message Empty{}
+
+message Customer {
+    string id = 1;
+    string name = 2;
+    string address = 3;
+}
+
+message CustomerList {
+    repeated Customer customers = 1;
+}
+
+message IDrequest {
+    string id = 1;
+}

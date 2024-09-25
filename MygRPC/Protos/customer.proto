@@ -4,12 +4,16 @@ option csharp_namespace = "Myprotos";
 
 package Customers;
 
-service GRrpcCustomer {
-    rpc GetAll(Empty) returns (CustomerList);
+service GrpcCustomer {
+    rpc GetAll (Empty) returns (CustomerList);
     rpc GetCustomer (IDrequest) returns (Customer);
+    
+    rpc CreateCustomer (Customer) returns (CustomerResponse);
+    rpc UpdateCustomer (Customer) returns (CustomerResponse);
+    rpc DeleteCustomer (IDrequest) returns (CustomerResponse);
 }
 
-message Empty{}
+message Empty {}
 
 message Customer {
     string id = 1;
@@ -23,4 +27,9 @@ message CustomerList {
 
 message IDrequest {
     string id = 1;
+}
+
+message CustomerResponse {
+    bool success = 1;
+    string message = 2;
 }

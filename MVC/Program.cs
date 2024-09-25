@@ -1,7 +1,14 @@
+using Myprotos;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddGrpcClient<GrpcCustomer.GrpcCustomerClient>(options =>
+{
+    options.Address = new Uri("http://localhost:5024");
+});
 
 var app = builder.Build();
 

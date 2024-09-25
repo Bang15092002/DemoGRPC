@@ -1,14 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Index";
-}
-
-@{
+    ViewData["Title"] = "Customer List";
     Myprotos.CustomerList data = ViewBag.Data;
 }
 
-@foreach (var item in data.Customers)
-{
-    <div>ID: @item.Id</div>
-    <div>Name: @item.Name</div>
-    <div>Address: @item.Address</div>
-}
+<h2>Customer List</h2>
+
+<a href="/Customer/Create">Create New Customer</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in data.Customers)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Address</td>
+                <td>
+                    <a href="/Customer/GetCustomer?id=@item.Id">Details</a> |
+                    <a href="/Customer/Update?id=@item.Id">Edit</a> |
+                    <a href="/Customer/Delete?id=@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

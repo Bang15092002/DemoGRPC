@@ -19,9 +19,11 @@ namespace MygRPC.Services
             var cusList = from obj in this._db.Customers
                           select new Myprotos.Customer()
                           {
-                              Id = obj.Id,
-                              Name = obj.Name,
-                              Address = obj.address
+                              Id = obj.CusId,
+                              Name = obj.CusName,
+                              Birthday = obj.CusBirthday.ToString(),
+                              Gender = obj.CusGender,
+                              Address = obj.CusAddress
                           };
             respond.Customers.AddRange(cusList);
             return Task.FromResult(respond);
@@ -34,33 +36,36 @@ namespace MygRPC.Services
             {
                 Myprotos.Customer cus = new Myprotos.Customer()
                 {
-                    Id = obj.Id,
-                    Name = obj.Name,
-                    Address = obj.address
+                    Id = obj.CusId,
+                    Name = obj.CusName,
+                    Birthday = obj.CusBirthday.ToString(),
+                    Gender = obj.CusGender,
+                    Address = obj.CusAddress
                 };
                 return Task.FromResult(cus);
             }
             throw new RpcException(new Status(StatusCode.NotFound, "Customer not found!!!"));
 
         }
-        public override async Task<CustomerResponse> CreateCustomer(Myprotos.Customer request, ServerCallContext context)
-        {
-            var newCustomer = new Models.Customer()
-            {
-                Id = request.Id,
-                Name = request.Name,
-                address = request.Address
-            };
+        //public override async Task<CustomerResponse> CreateCustomer(Myprotos.Customer request, ServerCallContext context)
+        //{
+        //    var newCustomer = new Models.Customer()
+        //    {
+        //        CusId = request.Id,
+        //        CusName = request.Name,
 
-            _db.Customers.Add(newCustomer);
-            await _db.SaveChangesAsync();
+        //        CusAddress = request.Address
+        //    };
 
-            return new CustomerResponse
-            {
-                Success = true,
-                Message = "Customer created successfully!"
-            };
-        }
+        //    _db.Customers.Add(newCustomer);
+        //    await _db.SaveChangesAsync();
+
+        //    return new CustomerResponse
+        //    {
+        //        Success = true,
+        //        Message = "Customer created successfully!"
+        //    };
+        //}
 
 
         public override async Task<CustomerResponse> UpdateCustomer(Myprotos.Customer request, ServerCallContext context)
@@ -71,8 +76,10 @@ namespace MygRPC.Services
                 throw new RpcException(new Status(StatusCode.NotFound, "Customer not found!!!"));
             }
 
-            exCus.Name = request.Name;
-            exCus.address = request.Address;
+            exCus.CusName = request.Name;
+            exCus.CusGender = request.Gender;
+            exCus.CusBirthday =  Convert.ToDateTime(request.Birthday);
+            exCus.CusAddress = request.Address;
 
             _db.Customers.Update(exCus);
             await _db.SaveChangesAsync();
@@ -85,22 +92,22 @@ namespace MygRPC.Services
         }
 
 
-        public override async Task<CustomerResponse> DeleteCustomer(IDrequest request, ServerCallContext context)
-        {
-            var existingCustomer = await _db.Customers.FindAsync(request.Id);
-            if (existingCustomer == null)
-            {
-                throw new RpcException(new Status(StatusCode.NotFound, "Customer not found!!!"));
-            }
+        //public override async Task<CustomerResponse> DeleteCustomer(IDrequest request, ServerCallContext context)
+        //{
+        //    var existingCustomer = await _db.Customers.FindAsync(request.Id);
+        //    if (existingCustomer == null)
+        //    {
+        //        throw new RpcException(new Status(StatusCode.NotFound, "Customer not found!!!"));
+        //    }
 
-            _db.Customers.Remove(existingCustomer);
-            await _db.SaveChangesAsync();
+        //    _db.Customers.Remove(existingCustomer);
+        //    await _db.SaveChangesAsync();
 
-            return new CustomerResponse
-            {
-                Success = true,
-                Message = "Customer deleted successfully!"
-            };
-        }
+        //    return new CustomerResponse
+        //    {
+        //        Success = true,
+        //        Message = "Customer deleted successfully!"
+        //    };
+        //}
     }
 }

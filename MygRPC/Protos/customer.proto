@@ -18,7 +18,9 @@ message Empty {}
 message Customer {
     string id = 1;
     string name = 2;
-    string address = 3;
+    string gender = 3;
+    string birthday = 4;
+    string address = 5;
 }
 
 message CustomerList {

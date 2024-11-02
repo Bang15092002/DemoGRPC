@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MygRPC.Models
 {
     public class Customer
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string address { get; set; }
+        [Key]
+        public string CusId { get; set; }
+        public string CusName { get; set; }
+        public string CusGender { get; set; }
+        public DateTime CusBirthday { get; set; }
+        public string CusAddress { get; set; }
     }
 }

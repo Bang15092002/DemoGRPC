@@ -16,10 +16,10 @@ namespace MVC.Controllers
 
         public IActionResult Index()
         {
-           
            Myprotos.CustomerList data = _client.GetAll(new Myprotos.Empty());
 
            ViewBag.Data = data;
+
            return View();
         }
 
